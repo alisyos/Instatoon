@@ -280,3 +280,13 @@ def not_found(error):
 def internal_error(error):
     """500 에러 핸들러"""
     return jsonify({'error': '서버 내부 오류가 발생했습니다.'}), 500
+
+
+# Vercel 배포를 위한 핸들러
+if __name__ == '__main__':
+    # 로컬 개발 환경
+    app.run(debug=True, host='0.0.0.0', port=5000)
+else:
+    # Vercel 배포 환경
+    # 템플릿 및 정적 파일 경로가 올바르게 설정되도록 함
+    pass
