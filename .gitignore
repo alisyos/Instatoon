@@ -132,3 +132,4 @@ storyboard_*.docx
 # OS
 .DS_Store
 Thumbs.db 
+.vercel
