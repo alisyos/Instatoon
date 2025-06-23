@@ -21,7 +21,10 @@ generator = InstaToonGenerator()
 # Vercel 배포를 위한 애플리케이션 팩토리
 def create_app():
     """Flask 애플리케이션 팩토리"""
-    app = Flask(__name__)
+    app = Flask(__name__, 
+                static_folder='static',
+                static_url_path='/static',
+                template_folder='templates')
     CORS(app)
     
     return app
@@ -125,6 +128,12 @@ def create_docx_from_storyboard(storyboard):
 def index():
     """메인 페이지"""
     return render_template('index.html')
+
+
+@app.route('/static/<path:filename>')
+def serve_static(filename):
+    """정적 파일 서빙"""
+    return send_file(os.path.join('static', filename))
 
 
 @app.route('/api/generate', methods=['POST'])
