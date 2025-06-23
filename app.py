@@ -15,11 +15,19 @@ from docx.enum.text import WD_ALIGN_PARAGRAPH
 from main import InstaToonGenerator
 from config import Config
 
-app = Flask(__name__)
-CORS(app)
-
 # 글로벌 생성기 인스턴스
 generator = InstaToonGenerator()
+
+# Vercel 배포를 위한 애플리케이션 팩토리
+def create_app():
+    """Flask 애플리케이션 팩토리"""
+    app = Flask(__name__)
+    CORS(app)
+    
+    return app
+
+# 애플리케이션 인스턴스 생성
+app = create_app()
 
 
 def storyboard_to_text(storyboard):
@@ -272,16 +280,3 @@ def not_found(error):
 def internal_error(error):
     """500 에러 핸들러"""
     return jsonify({'error': '서버 내부 오류가 발생했습니다.'}), 500
-
-
-if __name__ == '__main__':
-    # 템플릿 폴더 생성
-    if not os.path.exists('templates'):
-        os.makedirs('templates')
-    
-    # 정적 파일 폴더 생성
-    if not os.path.exists('static'):
-        os.makedirs('static')
-    
-    # 개발 서버 실행
-    app.run(debug=True, host='0.0.0.0', port=5000)
